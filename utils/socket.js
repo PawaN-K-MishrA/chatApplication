@@ -34,6 +34,9 @@ async function socketConnecton(io) {
           throw new Error('Error in updating messages...')
         }
       }
+      else{
+        
+      }
     }
     catch(err){
       throw new Error(err.message);
