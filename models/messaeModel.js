@@ -1,7 +1,7 @@
 const mongoose = require("mongoose"),
   { Schema } = require("mongoose");
 
-  const message=new Schema({
+const message=new Schema({
     date:Date,
     mssg:String
   })

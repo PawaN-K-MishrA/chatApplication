@@ -53,6 +53,11 @@ async function socketConnecton(io) {
       });
     });
 
+    socket.on("load-all-messages",async(data)=>{
+      const result=await Message.findOne({$and:[{'from':socket.id},{'userId':data.id}]})
+      io.to(data.id.toString()).emit("load-all-messages",{result})
+    });
+
     //////////////disconnection event
     socket.on("disconnect", async () => {
       console.log("User disconnected");
