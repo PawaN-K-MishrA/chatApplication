@@ -53,71 +53,6 @@ exports.signUp = async (req, res, next) => {
   }
 };
 
-// exports.signUp = async (req, res) => {
-//   try {
-//     const findUser = await User.findOne({ email: req.body.email });
-//     if (findUser) {
-//       throw new Error("This email already registered");
-//     }
-//     const user = await User.create({
-//       name: req.body.name,
-//       email: req.body.email,
-//       password: req.body.password,
-//       passwordConfirm: req.body.passwordConfirm,
-//     });
-//     console.log(user);
-
-//     const token = await jwt.sign(
-//       { id: user._id },
-//       "THIS-IS-CHAT-APPLICATION-API"
-//     );
-//     console.log(token);
-//     const updatedUser = await User.findByIdAndUpdate(
-//       user._id,
-//       {
-//         confimationToken: token,
-//       },
-//       {
-//         new: true,
-//         runValidators: true,
-//       }
-//     );
-//     console.log(updatedUser);
-
-//     const resetUrl = `${req.protocol}://${req.get(
-//       "host"
-//     )}/api/v1/users/confirmEmail/${resetToken}`;
-//     const message = `Forgot your password? Please make a patch request on this ${resetUrl} to update the password. If you didn't reuested for it.Please ignore it.`;
-//     await sendEmail({
-//       email: user.email,
-//       subject: "Please confirm your email",
-//       message,
-//     });
-
-//     res.status(200).json({
-//       Status: "success",
-//       message: "Please verify your email",
-//     });
-//   } catch (err) {
-//     res.status(400).json({
-//       status: "fail",
-//       message: err.message,
-//     });
-//   }
-// };
-
-// exports.confirmEmail = async (req, res, next) => {
-//   //const user = req.params.token;
-//   const user = await User.findOneandUpdate(
-//     { confirmationToken: req.params.token },
-//     { active: true }
-//   );
-
-//   res.status(400).json({
-//     status: "success",
-//     message: "Email verified",
-//   });
-// };
 
 exports.login = async (req, res) => {
   try {
@@ -146,7 +81,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.protect = async (req, res) => {
+/*exports.protect = async (req, res) => {
   let token;
 
   if (
@@ -169,7 +104,7 @@ exports.protect = async (req, res) => {
   }
   req.user = authenticatedUser;
   next();
-};
+};*/
 
 exports.activeUser = async (req, res) => {
   const users = await User.find({ active: true });

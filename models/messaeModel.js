@@ -2,18 +2,21 @@ const mongoose = require("mongoose"),
   { Schema } = require("mongoose");
 const messageSchema = new Schema({
   content: {
-    type: String,
-    required: [true],
+    type: Object,
+    default:{},
+    required: [true]
   },
   userName: {
     type: String,
-    required: [true],
+    required: [true]
   },
   from: {
     type: Schema.Types.ObjectId,
+    required:[true]
   },
   userId: {
     type: Schema.Types.ObjectId,
+    required:[true]
   },
   createdAt: {
     type: Date,
