@@ -1,11 +1,12 @@
 const mongoose = require("mongoose"),
   { Schema } = require("mongoose");
+
+  const message=new Schema({
+    date:Date,
+    mssg:String
+  })
 const messageSchema = new Schema({
-  content: {
-    type: Object,
-    default:{},
-    required: [true]
-  },
+  content: [message],
   userName: {
     type: String,
     required: [true]

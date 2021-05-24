@@ -17,24 +17,29 @@ async function socketConnecton(io) {
 
     /////////////////////on message event
     socket.on("message", async (data) => {
-      // const messageAttributes = {
-      //   userName: data.userName,
-      //   content: data.content,
-      //   userId: data.id,
-      //   from: socket.id,
-      // };
+      
       try{
-      let prev_mssg = await Message.findOne({$and:[{'from':socket.id},{'userId':data.id}]},{'content':1}).lean();
+        current_mssg={}
+        current_mssg['date']=Date.now()
+        current_mssg['mssg']=data.content
+      let prev_mssg = await Message.findOne({$and:[{'from':socket.id},{'userId':data.id}]}).lean();
+      //if there is existing chat between the users.
       if (prev_mssg){
-        let d={}
-        d[Date(Date.now())]=data.content;
-        new_message=Object.assign(prev_mssg,d)
-        let result=await Message.findOneAndUpdate({$and:[{'from':socket.id},{'userId':data.id}]},{'content':new_message})
+        prev_mssg=prev_mssg.content.push(current_mssg)
+        let result=await Message.findOneAndUpdate({$and:[{'from':socket.id},{'userId':data.id}]},{'content':prev_mssg})
         if (!result){
           throw new Error('Error in updating messages...')
         }
       }
       else{
+        //if no chat exist between the users.
+        const messageAttributes = {
+          userName: data.userName,
+          content: [current_mssg],
+          userId: data.id,
+          from: socket.id,
+        };
+        await Message.create(messageAttributes);
         
       }
     }
